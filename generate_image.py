@@ -63,10 +63,19 @@ readme_path = os.path.join(folder_path, "README.md")
 # 取得該資料夾內所有 PNG 圖片（排序確保順序）
 image_files = sorted([f for f in os.listdir(folder_path) if f.endswith(".png")])
 
-# 產生 markdown 格式的圖片預覽
-readme_lines = ["# Generated Images\n"]
-for image_file in image_files:
-    readme_lines.append(f'<img src="{image_file}" width="100"/>')
+# 產生 markdown 圖片區塊，每 10 張換一行
+readme_lines = ["# Generated Images", ""]
+row = []
+
+for i, image_file in enumerate(image_files, 1):
+    row.append(f'<img src="{image_file}" width="100"/>')
+    if i % 10 == 0:
+        readme_lines.append(" ".join(row))
+        row = []
+
+# 加上最後一行（不足 10 張也要顯示）
+if row:
+    readme_lines.append(" ".join(row))
 
 # 寫入 README.md
 with open(readme_path, "w") as f:
