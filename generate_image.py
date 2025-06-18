@@ -1,11 +1,12 @@
 import os
+import random
+import json
 from datetime import datetime
 from g4f.client import Client as Client_g4f
-from gradio_client import Client
-import shutil
+from gradio_client import Client as Client_gradio
 from PIL import Image
 
-# === Step 1: 用 g4f GPT-4o 生成 Fantasy prompt ===
+# === Step 1: 用 g4f GPT-4o 生成高品質繪圖 prompt ===
 client = Client_g4f()
 
 response = client.chat.completions.create(
@@ -14,69 +15,102 @@ response = client.chat.completions.create(
         {
             "role": "user",
             "content": (
-                """Please create a single-sentence AI art prompt, written in English, in the same style as the following example. The goal is to describe a rich, vivid, and cinematic digital artwork, suitable for use with an AI image generator like Midjourney, DALL·E, or Stable Diffusion.
+                """Please write a single-sentence AI image generation prompt that is rich in visual detail and structured like a cinematic description. This prompt will be used with a high-resolution, highly descriptive model such as FLUX, so the output should be exceptionally vivid and immersive.
 
-Example prompt (DO NOT repeat it, just follow its level of detail and style):
-"This digital artwork, created in a realistic, semi-realistic style, portrays a futuristic, cybernetic female warrior standing confidently in the center of the frame..."
+The prompt should include:
+- A clear subject or character
+- The character’s appearance
+- Artistic style or mood (realistic, sci-fi, mechanical, fantasy, surreal, etc.)
+- Environment or setting details
+- Specific lighting and color schemes
+- Clothing, accessories, or technology
+- Motion, atmosphere, or effects
 
-Now, generate a similar prompt — same level of descriptive detail, same structure, but completely different concept. It should describe:
-- A different subject or character (not the same warrior)
-- A new setting or background
-- A clear artistic style (e.g., cyberpunk, fantasy, horror, surreal, etc.)
-- Visual atmosphere (fog, light, energy, emotion)
-- Clothing, accessories, or weapons (if any)
-- Specific colors and lighting
-
-Make sure it's elegant, vivid, and usable directly as an AI image generation prompt."""
+Structure it as a single long sentence. No camera tags. Make it imaginative and visual.
+"""
             )
         }
     ]
 )
 
 image_prompt = response.choices[0].message.content.strip()
-print("🎨 生成的 Prompt:", image_prompt)
+print("🎨 Prompt:", image_prompt)
 
-# === Step 2: 用 HuggingFace 模型生成圖片 ===
+# === Step 2: 定義並選取圖片尺寸（所有尺寸皆 ≥ 1024） ===
+image_sizes = [
+    {"name": "portrait", "width": 1024, "height": 1536},
+    {"name": "landscape", "width": 1280, "height": 1024},
+    {"name": "square", "width": 1024, "height": 1024},
+    {"name": "ultra-wide", "width": 1920, "height": 1024},
+    {"name": "vertical-hd", "width": 1080, "height": 1920}
+]
 
-client = Client("black-forest-labs/FLUX.1-dev")
+size_choice = random.choice(image_sizes)
+width = size_choice["width"]
+height = size_choice["height"]
+
+# === Step 3: 調用 FLUX Space 模型產圖 ===
+client = Client_gradio("black-forest-labs/FLUX.1-dev")
+
 result = client.predict(
-        prompt=image_prompt,
-        seed=0,
-        randomize_seed=True,
-        width=1080,
-        height=1920,
-        guidance_scale=3.5,
-        num_inference_steps=28,
-        api_name="/infer"
+    prompt=image_prompt,
+    seed=0,
+    randomize_seed=True,
+    width=width,
+    height=height,
+    guidance_scale=3.5,
+    num_inference_steps=28,
+    api_name="/infer"
 )
 
-# === Step 3: 檔案命名與儲存路徑設定 ===
+# === Step 4: 建立日期資料夾與檔名 ===
 today = datetime.now().strftime("%Y_%m_%d")
 folder_path = os.path.join("images", today)
 os.makedirs(folder_path, exist_ok=True)
 
-# 找出今天已經存在的圖片數量，確保檔名遞增
 existing_files = [f for f in os.listdir(folder_path) if f.endswith(".png")]
 image_index = len(existing_files) + 1
-
-# 指定儲存檔名
 filename = f"{today}_{image_index:02}.png"
 output_path = os.path.join(folder_path, filename)
 
-# 將 webp 轉成 PNG 存起來
-with Image.open(result[0]) as img:
+# === Step 5: 將 .webp 轉存為 .png ===
+webp_path = result[0]["path"]
+
+with Image.open(webp_path) as img:
     img.convert("RGB").save(output_path, "PNG")
 
-print(f"✅ 圖片已轉成 PNG 並儲存至：{output_path}")
+print(f"✅ 圖片已儲存：{output_path}")
 
+# === Step 6: 更新 data.json ===
+json_path = os.path.join(folder_path, "data.json")
+timestamp = datetime.utcnow().isoformat() + "Z"
 
-# === Step 5: 更新 README.md 預覽圖片 ===
+new_entry = {
+    "filename": filename,
+    "prompt": image_prompt,
+    "width": width,
+    "height": height,
+    "style": size_choice["name"],
+    "timestamp": timestamp
+}
+
+if os.path.exists(json_path):
+    with open(json_path, "r") as f:
+        data = json.load(f)
+else:
+    data = {"date": today, "images": []}
+
+data["images"].append(new_entry)
+
+with open(json_path, "w") as f:
+    json.dump(data, f, indent=2)
+
+print(f"📄 data.json 已更新：{json_path}")
+
+# === Step 7: 更新 README.md 每行最多顯示 10 張圖片 ===
 readme_path = os.path.join(folder_path, "README.md")
-
-# 取得該資料夾內所有 PNG 圖片（排序確保順序）
 image_files = sorted([f for f in os.listdir(folder_path) if f.endswith(".png")])
 
-# 產生 markdown 圖片區塊，每 10 張換一行
 readme_lines = ["# Generated Images", ""]
 row = []
 
@@ -86,11 +120,9 @@ for i, image_file in enumerate(image_files, 1):
         readme_lines.append(" ".join(row))
         row = []
 
-# 加上最後一行（不足 10 張也要顯示）
 if row:
     readme_lines.append(" ".join(row))
 
-# 寫入 README.md
 with open(readme_path, "w") as f:
     f.write("\n\n".join(readme_lines))
 

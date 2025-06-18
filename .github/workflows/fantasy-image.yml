@@ -2,8 +2,9 @@ name: Generate Fantasy AI Image
 
 on:
   schedule:
-    - cron: '0 */2 * * *'  # 每兩小時執行一次 (UTC)
-  workflow_dispatch:
+    # 每 5 分鐘觸發一次（理論上）
+    - cron: '*/15 * * * *'
+  workflow_dispatch:  # 可手動觸發
 
 jobs:
   generate:
