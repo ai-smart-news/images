@@ -192,7 +192,7 @@ Use the following creative inspiration:
 - **Extra Details**: {', '.join(chosen['details'])}
 
 Do not list the elements explicitly in the sentence. Instead, use these keywords to inform your creative description of a vivid, visually rich and immersive scene. The prompt should read like concept art narration, elegant and imaginative, with no camera tags or formatting.
-
+Please describe more details of picture, image, and styles, realistic portrait, digital artwork, CGI pictures, at list 150 words.
 Just return a **single descriptive sentence**.
 """
 
