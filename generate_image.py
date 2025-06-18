@@ -6,6 +6,195 @@ from g4f.client import Client as Client_g4f
 from gradio_client import Client as Client_gradio
 from PIL import Image
 
+
+subjects = [
+    "ancient robot", "cosmic whale", "masked figure", "crystal giant", "mechanical bird",
+    "floating castle", "orbital station", "hooded traveler", "fire spirit", "mirror beast",
+    "lone samurai", "cybernetic monk", "glass dragon", "forest guardian", "energy sword",
+    "flying city", "golem priest", "sunken relic", "arcane knight", "drifting spacecraft",
+    "tree spirit", "neon dancer", "cathedral ship", "blood mage", "space jellyfish",
+    "clockwork angel", "mutant deer", "shadow assassin", "lava serpent", "cloud whale",
+    "frozen sentinel", "desert banshee", "ghost pilot", "energy core", "time traveler",
+    "dream diver", "obsidian beast", "wind oracle", "gravity warper", "cursed puppet",
+    "twilight hunter", "moon priestess", "data spirit", "plasma knight", "memory walker",
+    "alien monk", "flame queen", "junkyard titan", "solar beast", "marble sphinx",
+    "crystal seer", "seraphic android", "storm chaser", "orb weaver", "space cowboy",
+    "withered statue", "sky serpent", "magnetic phantom", "veil dancer", "starborn child",
+    "mirrored samurai", "tide witch", "mechanized panther", "ice prophet", "temporal crow",
+    "bone golem", "dream fox", "obsidian stag", "tech knight", "vortex mage",
+    "circuit priest", "skyforged lion", "living relic", "cyber dragon", "glass phoenix",
+    "acidic slug", "neon brute", "memory construct", "lunar wolf", "spectral architect",
+    "cloud shepherd", "signal hunter", "dust alchemist", "flesh machine", "silicon banshee",
+    "spore druid", "nebula crab", "hollow echo", "plague oracle", "ether golem",
+    "sonic knight", "wire lich", "snow crow", "sun angel", "machine monk",
+    "gravity sage", "radiant thief", "moss giant", "storm sentinel", "titanic jelly"
+]
+
+styles = [
+    "fantasy", "cyberpunk", "surrealism", "baroque", "low-poly", "oil painting",
+    "vaporwave", "realism", "gothic", "neon noir", "dieselpunk", "abstract expressionism",
+    "steampunk", "futurism", "impressionism", "grunge", "synthwave", "chiaroscuro",
+    "expressionist", "vintage poster", "dark academia", "minimalism", "sci-fi horror",
+    "pixel art", "flat design", "brutalism", "watercolor", "ink sketch", "charcoal drawing",
+    "concept art", "art nouveau", "pop art", "tribal art", "monochrome", "mythological",
+    "cubism", "digital painting", "cinematic realism", "symbolist", "ethereal realism",
+    "graffiti", "dark fantasy", "high fantasy", "contemporary surreal", "noir",
+    "hyperrealism", "whimsical", "vintage anime", "cel shading", "magic realism",
+    "industrial", "spiritual art", "mystic abstraction", "mechanical futurism",
+    "biopunk", "afrofuturism", "arcane punk", "romanticism", "post-apocalyptic",
+    "science illustration", "dreamcore", "datamosh", "cutout collage", "ornate gothic",
+    "tech noir", "new wave", "low-fi", "retro pop", "hard-edge abstraction",
+    "kinetic sculpture", "comic book style", "sacred geometry", "eastern ink style",
+    "photorealism", "fluid art", "subrealism", "macabre", "organic minimalism",
+    "pointillism", "pixel noise", "experimental glitch", "drip painting",
+    "liquid chrome", "bizarre surreal", "mythic horror", "generative fractal",
+    "sacral surrealism", "dark psychedelia", "deco futurism", "anime realism",
+    "voidcore", "ornamental futurism", "retro arcade", "quantum surreal",
+    "sacred sci-fi", "twisted baroque", "digital horror", "punk romantic"
+]
+
+lighting_moods = [
+    "misty dawn", "harsh spotlight", "soft moonlight", "blood-red sunset", "dim cavern glow",
+    "neon reflections", "fire-lit shadows", "radiant storm", "eerie twilight", "pulsing strobe",
+    "backlit fog", "deep underwater glow", "arcade ambiance", "studio contrast", "luminous eclipse",
+    "volcanic haze", "alien atmosphere", "solar flare", "rain-soaked streetlight", "flickering candlelight",
+    "cracked crystal light", "overcast gloom", "colorful aurora", "stormy clouds", "burning skyline",
+    "golden dusk", "silver dawn", "low-angle lanterns", "cyber shimmer", "moon halo",
+    "shadow tunnel", "ray of hope", "drifting dust light", "monochrome tension", "glow from below",
+    "lens-distorted light", "hallucinated sun", "radiating ice", "chaotic sparks", "cold steel glint",
+    "halo blaze", "ambient void", "spotlight slice", "melting neon", "diffused projector light",
+    "reflective surface glow", "laser pulse", "torchlit ruins", "oil-lamp mist", "shimmering void",
+    "orbital station light", "sunken ruin haze", "signal glow", "dusk field fireflies", "swamp light",
+    "ritual circle fire", "mist lanterns", "inverted sun", "hidden campfire", "colored smog",
+    "light spirals", "aurora haze", "cold temple light", "chromatic clouds", "desert mirage shine",
+    "ethereal brightness", "crescent glow", "reflected sparks", "moonbeam fracture", "blade glimmer",
+    "wireless flicker", "hollow flicker", "bio-electric pulse", "timeless haze", "drone beam",
+    "under-sky luminance", "cryptic eclipse", "sacred torchlight", "ancient glow", "floating prism light",
+    "crystal cave glow", "engine sparks", "infrared shimmer", "plasma arcs", "dim reactor core",
+    "tunnel flickers", "ceremonial embers", "vortex light", "lava field haze", "storm-lit sky",
+    "dreamlight", "chaos bloom", "twilight shimmer", "cosmic pulse", "digital starlight"
+]
+
+color_palettes = [
+    "monochrome blue", "gold and obsidian", "neon pink and teal", "rust and emerald",
+    "crimson and fog white", "sepia tones", "electric violet and sky cyan", "pastel gradients",
+    "sunset orange and navy", "silver and turquoise", "fire glow and shadow black", "lunar lavender and dusk",
+    "jade and brass", "storm gray and royal purple", "mint and ash", "night indigo and bronze",
+    "plasma green and carbon", "burnt sienna and glacier", "cherry red and void", "dusty rose and cream",
+    "flame and steel", "forest and frost", "arctic ice and shadow", "pearl and graphite",
+    "amber and onyx", "cloud and blood", "laser red and smoke", "deep plum and sand",
+    "gold and navy", "holographic chrome", "emerald and obsidian", "sky gold and fog",
+    "aquamarine and coal", "peach and oxide", "blood orange and ink", "silver fire",
+    "dim cyan and brown", "star white and abyss blue", "purple dusk and haze",
+    "light coral and void black", "neon rust and cobalt", "seafoam and mercury",
+    "flamingo pink and steel blue", "violet haze and gold sparks", "lava and smoke",
+    "frost green and granite", "pearl white and scarlet", "cerulean and bone",
+    "ghost blue and dusk", "slate and sunrise", "turquoise and shadow brown",
+    "storm cloud and moss", "ochre and grey steel", "platinum and maroon",
+    "ink blue and signal red", "dream violet and fog green", "bronze and blush",
+    "cream gold and pale cyan", "sky rose and ember", "petrol blue and chrome",
+    "twilight and coal red", "mist gray and glowing orange", "lavender silver and wine",
+    "cosmic cyan and carbon black", "ice pink and moss green", "opal and deep tan",
+    "wine red and smoke white", "cactus green and pale gold", "dim violet and brass",
+    "sunflower and twilight gray", "lava red and feather white", "electric blue and rust",
+    "nude bronze and forest ink", "algae green and cold iron", "sun gold and haze gray",
+    "sapphire and sulfur", "dust beige and ocean steel", "chrome blue and velvet red",
+    "crimson haze and gold", "pine green and pearl silver", "black opal and rose",
+    "mulberry and storm white", "deep jade and volcanic gray", "pewter and petrol green",
+    "graphite and glacier blue", "moon silver and crimson bloom", "coral dusk and tech gray",
+    "moonstone and pale wine", "digital mint and shadow bronze", "storm plum and electric smoke",
+    "rose ivory and blue ash", "candy red and toxic green", "silk ivory and concrete",
+    "ghost gray and neon leaf", "obsidian and champagne", "blood gold and cloud silver"
+]
+
+perspectives = [
+    "low-angle view", "bird's eye view", "first-person view", "over-the-shoulder shot",
+    "extreme close-up", "wide-angle scene", "side profile", "silhouette framing", "reflection angle",
+    "distant shot", "worm’s eye view", "top-down cutaway", "isometric cut", "overhead abstract",
+    "drone-style pan", "frontal symmetrical", "corner peek view", "mirrored environment shot",
+    "rotated tilt shot", "fish-eye distortion", "dynamic zoom blur", "panoramic scope",
+    "vertical split-frame", "underwater perspective", "edge-cliff framing",
+    "dim corridor point-of-view", "light source behind subject", "sky-down vortex",
+    "spiral angle", "motion blur capture", "lens compression frame", "sun-behind glare",
+    "fog window focus", "flying camera arc", "abstract focus depth", "minimal tilt-frame",
+    "side cut-out with depth", "backlight zoom", "twilight tunnel view",
+    "from-reflection shot", "vortex eye focus", "heroic center-focus", "ghost-following angle",
+    "upward eclipse shot", "shattered glass framing", "angled stairwell frame",
+    "folded plane illusion", "rippling perspective", "curved hallway illusion",
+    "sky-and-ground dual-view", "multiple mirror echo view", "descent view from above",
+    "flat plane head-on", "lightburst focus", "lateral corridor", "top-left diagonal",
+    "tunnel vision scope", "low glow from reflection", "dim-light corner peek",
+    "symmetrical collapse perspective", "fractured lens perspective", "fog-lit corridor side shot",
+    "wall trace focus", "inverted corridor scope", "organic tunnel split-view",
+    "mist-obscured view", "angled room projection", "magnetic focus whirl",
+    "portal through tree roots", "from-object reflection", "internal subject POV",
+    "reverse tracking shot", "drift-through lens", "time-folded view",
+    "oblique glass sliver", "rotated flatfield perspective", "trapped bubble lens",
+    "reverse eclipse view", "veiled curtain glimpse", "infinite depth corridor",
+    "fractured sky angle", "orbital floating perspective", "dust trail follow view",
+    "gazing from below", "door-framed character focus", "flooded field angle",
+    "back-focus silhouette", "light-through-hand perspective", "pulsing doorway effect",
+    "inversion prism view", "iris tunnel framing", "water reflection top shot",
+    "glitch-wrapped perspective", "cross-section hall cut"
+]
+
+details = [
+    "cracked glass texture", "floating debris", "ethereal glow", "arcane symbols hovering",
+    "water droplets in motion", "particles of ash", "mechanical joints", "overgrown roots",
+    "levitating stones", "fog trails", "lens flare", "digital noise", "folded space-time",
+    "glowing circuit veins", "neon tattoos", "vortex particles", "ancient carvings",
+    "scrolls blowing in wind", "organic tentacles", "burning petals", "bubbling liquid",
+    "torn cloth", "holographic interface", "rust flakes", "mirror fragments",
+    "feather fall motion", "embers in air", "magnetic pulses", "starfield overlay",
+    "quantum sparks", "cyber wings", "metallic moss", "liquid shimmer",
+    "shadow flickers", "floating lanterns", "silicon smoke", "geometric patterns",
+    "dripping light", "time fracture cracks", "glitching reflection", "flaming runes",
+    "transparent filaments", "organic moss growth", "sound waves visualized",
+    "tattered flags", "vines pulsing with energy", "dust vortex", "folding shadow",
+    "motion ribbons", "dissolving skin", "electrostatic air", "star charts",
+    "hovering stone rings", "infinite mirrors", "snow particles", "molten stone",
+    "crystal webs", "nebula ink clouds", "fractured statue", "melting sculpture",
+    "floating string lights", "bio-organic veins", "time-locked particles",
+    "dripping neon wires", "telepathic symbol bloom", "hover glass shards",
+    "folding cloth wave", "tinted aura circles", "blurred reflections", "creaking roots",
+    "blinking eyes in fog", "vibrating crystal rings", "mechanical bones",
+    "digital tears", "reverse smoke", "floating tattoos", "spore clouds",
+    "floating raindrops", "dim holograms", "bleeding circuits", "suspended steam",
+    "glowing scar lines", "pulse trails", "color inversion sparks", "mossy rubble",
+    "scattered scripts", "ghost limbs", "metal petals", "shifting ink shapes",
+    "smoke feather mix", "symbiotic filaments", "glass particle burst",
+    "dimmed sun shafts", "hovering glyphs", "sonic distortion rings"
+]
+
+def pick_elements(category, n=2):
+    return random.sample(category, n)
+
+chosen = {
+    "subject": pick_elements(subjects),
+    "style": pick_elements(styles),
+    "lighting": pick_elements(lighting_moods),
+    "color": pick_elements(color_palettes),
+    "perspective": pick_elements(perspectives),
+    "details": pick_elements(details),
+}
+
+prompt_template = f"""
+Please generate a single-sentence AI image prompt suitable for high-detail image generation models (like FLUX or Stable Diffusion).
+
+Use the following creative inspiration:
+
+- **Subject(s)**: {', '.join(chosen['subject'])}
+- **Art Style(s)**: {', '.join(chosen['style'])}
+- **Lighting / Mood**: {', '.join(chosen['lighting'])}
+- **Color Palette**: {', '.join(chosen['color'])}
+- **Perspective**: {', '.join(chosen['perspective'])}
+- **Extra Details**: {', '.join(chosen['details'])}
+
+Do not list the elements explicitly in the sentence. Instead, use these keywords to inform your creative description of a vivid, visually rich and immersive scene. The prompt should read like concept art narration, elegant and imaginative, with no camera tags or formatting.
+
+Just return a **single descriptive sentence**.
+"""
+
 # === Step 1: 用 g4f GPT-4o 生成高品質繪圖 prompt ===
 client = Client_g4f()
 
@@ -15,19 +204,7 @@ response = client.chat.completions.create(
         {
             "role": "user",
             "content": (
-                """Please write a single-sentence AI image generation prompt that is rich in visual detail and structured like a cinematic description. This prompt will be used with a high-resolution, highly descriptive model such as FLUX, so the output should be exceptionally vivid and immersive.
-
-The prompt should include:
-- A clear subject or character
-- The character’s appearance
-- Artistic style or mood (realistic, sci-fi, mechanical, fantasy, surreal, etc.)
-- Environment or setting details
-- Specific lighting and color schemes
-- Clothing, accessories, or technology
-- Motion, atmosphere, or effects
-
-Structure it as a single long sentence. No camera tags. Make it imaginative and visual.
-"""
+                prompt_template
             )
         }
     ]
