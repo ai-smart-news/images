@@ -2,6 +2,8 @@ import os
 from datetime import datetime
 from g4f.client import Client as Client_g4f
 from gradio_client import Client
+import shutil
+
 
 # === Step 1: 用 g4f GPT-4o 生成 Fantasy prompt ===
 client = Client_g4f()
@@ -43,11 +45,15 @@ os.makedirs(folder_path, exist_ok=True)
 # 找出今天已經存在的圖片數量，確保檔名遞增
 existing_files = [f for f in os.listdir(folder_path) if f.endswith(".png")]
 image_index = len(existing_files) + 1
+
+# 指定儲存檔名
 filename = f"{today}_{image_index:02}.png"
 output_path = os.path.join(folder_path, filename)
 
-# 儲存圖片
-with open(output_path, "wb") as f:
-    f.write(result[0].rsplit(".", 1)[0] + ".png")
+from PIL import Image
 
-print(f"✅ 圖片已儲存至：{output_path}")
+# 將 webp 轉成 PNG 存起來
+with Image.open(result[0]) as img:
+    img.convert("RGB").save(output_path, "PNG")
+
+print(f"✅ 圖片已轉成 PNG 並儲存至：{output_path}")
