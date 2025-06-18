@@ -55,3 +55,21 @@ with Image.open(result[0]) as img:
     img.convert("RGB").save(output_path, "PNG")
 
 print(f"✅ 圖片已轉成 PNG 並儲存至：{output_path}")
+
+
+# === Step 5: 更新 README.md 預覽圖片 ===
+readme_path = os.path.join(folder_path, "README.md")
+
+# 取得該資料夾內所有 PNG 圖片（排序確保順序）
+image_files = sorted([f for f in os.listdir(folder_path) if f.endswith(".png")])
+
+# 產生 markdown 格式的圖片預覽
+readme_lines = ["# Generated Images\n"]
+for image_file in image_files:
+    readme_lines.append(f'<img src="{image_file}" width="100"/>')
+
+# 寫入 README.md
+with open(readme_path, "w") as f:
+    f.write("\n\n".join(readme_lines))
+
+print(f"📄 README.md 已更新：{readme_path}")
