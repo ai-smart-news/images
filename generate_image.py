@@ -8,27 +8,28 @@ from PIL import Image
 
 
 subjects = [
-    "ancient robot", "cosmic whale", "masked figure", "crystal giant", "mechanical bird",
-    "floating castle", "orbital station", "hooded traveler", "fire spirit", "mirror beast",
-    "lone samurai", "cybernetic monk", "glass dragon", "forest guardian", "energy sword",
-    "flying city", "golem priest", "sunken relic", "arcane knight", "drifting spacecraft",
-    "tree spirit", "neon dancer", "cathedral ship", "blood mage", "space jellyfish",
-    "clockwork angel", "mutant deer", "shadow assassin", "lava serpent", "cloud whale",
-    "frozen sentinel", "desert banshee", "ghost pilot", "energy core", "time traveler",
-    "dream diver", "obsidian beast", "wind oracle", "gravity warper", "cursed puppet",
-    "twilight hunter", "moon priestess", "data spirit", "plasma knight", "memory walker",
-    "alien monk", "flame queen", "junkyard titan", "solar beast", "marble sphinx",
-    "crystal seer", "seraphic android", "storm chaser", "orb weaver", "space cowboy",
-    "withered statue", "sky serpent", "magnetic phantom", "veil dancer", "starborn child",
-    "mirrored samurai", "tide witch", "mechanized panther", "ice prophet", "temporal crow",
-    "bone golem", "dream fox", "obsidian stag", "tech knight", "vortex mage",
-    "circuit priest", "skyforged lion", "living relic", "cyber dragon", "glass phoenix",
-    "acidic slug", "neon brute", "memory construct", "lunar wolf", "spectral architect",
-    "cloud shepherd", "signal hunter", "dust alchemist", "flesh machine", "silicon banshee",
-    "spore druid", "nebula crab", "hollow echo", "plague oracle", "ether golem",
-    "sonic knight", "wire lich", "snow crow", "sun angel", "machine monk",
-    "gravity sage", "radiant thief", "moss giant", "storm sentinel", "titanic jelly"
+    "ancient robotess", "cosmic whale queen", "masked enchantress", "crystal giantess", "mechanical songbird",
+    "floating empress castle", "orbital matron", "hooded wanderess", "fire spirit maiden", "mirror siren",
+    "lone samurai girl", "cybernetic nun", "glass dragoness", "forest guardianess", "energy blade dancer",
+    "skyborne city queen", "golem priestess", "sunken relic maiden", "arcane knightess", "drifting starship pilot",
+    "tree nymph", "neon dancer girl", "cathedral ship mistress", "blood sorceress", "space jellyfish queen",
+    "clockwork seraph", "mutant doe", "shadow assassiness", "lava serpentess", "cloud leviathan",
+    "frozen sentinel maiden", "desert banshee queen", "ghost aviatrix", "core priestess", "female time traveler",
+    "dream diveress", "obsidian she-beast", "wind oracle maiden", "gravity witch", "cursed doll",
+    "twilight huntress", "moon priestess", "data muse", "plasma valkyrie", "memory weaver",
+    "alien mystic nun", "flame queen", "junkyard colossina", "solar lioness", "marble sphinx queen",
+    "crystal seeress", "android seraphina", "storm chaser girl", "orb mistress", "space cowgirl",
+    "withered statue maiden", "sky serpentess", "magnetic ghost lady", "veil danceress", "starborn maiden",
+    "mirrored ronin girl", "tide witch", "panther automa", "ice prophetess", "temporal crow lady",
+    "bone golemess", "dream vulpine", "obsidian hind", "tech valkyrie", "vortex mage girl",
+    "circuit priestess", "skyforged lioness", "living relic maiden", "cyber dragon queen", "glass phoenix maiden",
+    "acidic slug queen", "neon brute diva", "memory maiden", "lunar she-wolf", "spectral architectress",
+    "cloud shepherdess", "signal huntress", "dust alchemista", "flesh automata", "silicon banshee",
+    "spore druidess", "nebula crab queen", "hollow echo maiden", "plague oracle lady", "ether she-golem",
+    "sonic knightess", "wire lich witch", "snow crow matron", "sun archangel", "machine monkess",
+    "gravity sage maiden", "radiant thief girl", "moss giantess", "storm sentinel queen", "titanic jelly siren"
 ]
+
 
 styles = [
     "fantasy", "cyberpunk", "surrealism", "baroque", "low-poly", "oil painting",
