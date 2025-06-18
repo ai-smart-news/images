@@ -14,7 +14,7 @@ response = client.chat.completions.create(
         {
             "role": "user",
             "content": (
-                "請幫我生成一句適合 AI 繪圖的 fantasy prompt，英文，一句話即可，風格可以是魔法、精靈、史詩場景、奇幻生物或幻想藝術。"
+                "請幫我生成一句適合 AI 繪圖的 fantasy prompt，英文，一句話即可，風格可以是魔法、精靈、史詩場景、奇幻生物或幻想藝術。(希望主體都是以性感美女為主)"
             )
         }
     ]
