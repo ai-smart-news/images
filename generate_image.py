@@ -74,7 +74,7 @@ filename = f"{today}_{image_index:02}.png"
 output_path = os.path.join(folder_path, filename)
 
 # === Step 5: 將 .webp 轉存為 .png ===
-webp_path = result[0]["path"]
+webp_path = result[0]
 
 with Image.open(webp_path) as img:
     img.convert("RGB").save(output_path, "PNG")
