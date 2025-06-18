@@ -14,7 +14,20 @@ response = client.chat.completions.create(
         {
             "role": "user",
             "content": (
-                "請幫我生成適合 AI 繪圖的 性感內衣模特兒的 prompt，英文，材質、樣式、背景、時尚、姿勢、配件、場景請你發揮創意跳脫框架，重點要是真實照片，描述盡量細節 (主體都是以性感寫實美女、日本美女為主) 請直接給我prompt"
+                """Please create a single-sentence AI art prompt, written in English, in the same style as the following example. The goal is to describe a rich, vivid, and cinematic digital artwork, suitable for use with an AI image generator like Midjourney, DALL·E, or Stable Diffusion.
+
+Example prompt (DO NOT repeat it, just follow its level of detail and style):
+"This digital artwork, created in a realistic, semi-realistic style, portrays a futuristic, cybernetic female warrior standing confidently in the center of the frame..."
+
+Now, generate a similar prompt — same level of descriptive detail, same structure, but completely different concept. It should describe:
+- A different subject or character (not the same warrior)
+- A new setting or background
+- A clear artistic style (e.g., cyberpunk, fantasy, horror, surreal, etc.)
+- Visual atmosphere (fog, light, energy, emotion)
+- Clothing, accessories, or weapons (if any)
+- Specific colors and lighting
+
+Make sure it's elegant, vivid, and usable directly as an AI image generation prompt."""
             )
         }
     ]
