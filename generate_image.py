@@ -27,7 +27,6 @@ hf_client = InferenceClient("black-forest-labs/FLUX.1-dev")
 result = hf_client.text_to_image(
     prompt=image_prompt,
     seed=0,
-    randomize_seed=True,
     width=1080,
     height=1920,
     guidance_scale=3.5,
