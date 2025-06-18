@@ -6,6 +6,28 @@ from g4f.client import Client as Client_g4f
 from gradio_client import Client as Client_gradio
 from PIL import Image
 
+subjects = [
+    "ancient robot", "cosmic whale", "masked figure", "crystal giant", "mechanical bird",
+    "floating castle", "orbital station", "hooded traveler", "fire spirit", "mirror beast",
+    "lone samurai", "cybernetic monk", "glass dragon", "forest guardian", "energy sword",
+    "flying city", "golem priest", "sunken relic", "arcane knight", "drifting spacecraft",
+    "tree spirit", "neon dancer", "cathedral ship", "blood mage", "space jellyfish",
+    "clockwork angel", "mutant deer", "shadow assassin", "lava serpent", "cloud whale",
+    "frozen sentinel", "desert banshee", "ghost pilot", "energy core", "time traveler",
+    "dream diver", "obsidian beast", "wind oracle", "gravity warper", "cursed puppet",
+    "twilight hunter", "moon priestess", "data spirit", "plasma knight", "memory walker",
+    "alien monk", "flame queen", "junkyard titan", "solar beast", "marble sphinx",
+    "crystal seer", "seraphic android", "storm chaser", "orb weaver", "space cowboy",
+    "withered statue", "sky serpent", "magnetic phantom", "veil dancer", "starborn child",
+    "mirrored samurai", "tide witch", "mechanized panther", "ice prophet", "temporal crow",
+    "bone golem", "dream fox", "obsidian stag", "tech knight", "vortex mage",
+    "circuit priest", "skyforged lion", "living relic", "cyber dragon", "glass phoenix",
+    "acidic slug", "neon brute", "memory construct", "lunar wolf", "spectral architect",
+    "cloud shepherd", "signal hunter", "dust alchemist", "flesh machine", "silicon banshee",
+    "spore druid", "nebula crab", "hollow echo", "plague oracle", "ether golem",
+    "sonic knight", "wire lich", "snow crow", "sun angel", "machine monk",
+    "gravity sage", "radiant thief", "moss giant", "storm sentinel", "titanic jelly"
+]
 
 subjects = [
     "ancient robotess", "cosmic whale queen", "masked enchantress", "crystal giantess", "mechanical songbird",
@@ -167,7 +189,7 @@ details = [
     "dimmed sun shafts", "hovering glyphs", "sonic distortion rings"
 ]
 
-def pick_elements(category, n=2):
+def pick_elements(category, n=1):
     return random.sample(category, n)
 
 chosen = {
