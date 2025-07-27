@@ -72,6 +72,14 @@
       "height": 1024,
       "style": "ultra-wide",
       "timestamp": "2025-07-27T07:42:12.580771Z"
+    },
+    {
+      "filename": "2025_07_27_10.png",
+      "prompt": "502 Bad Gateway\nUnable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared",
+      "width": 1024,
+      "height": 1536,
+      "style": "portrait",
+      "timestamp": "2025-07-27T07:53:25.240901Z"
     }
   ]
 }
